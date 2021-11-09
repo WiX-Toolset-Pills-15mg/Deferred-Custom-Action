@@ -8,5 +8,10 @@
 
 This pill demonstrates how to create a deferred custom action.
 
-A deferred custom action when it is encountered in the install sequence it is jut put in a list and it is executed at the end of the install sequence.
+
+## Donations
+
+> If you like my work and want to support me, you can buy me a coffee:
+>
+> [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y62EZ8H)
 
