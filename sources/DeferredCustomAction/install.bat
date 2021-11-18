@@ -1,1 +1,1 @@
-msiexec /i ImmediateCustomAction.msi /l*vx install.log
+msiexec /i DeferredCustomAction.msi /l*vx install.log

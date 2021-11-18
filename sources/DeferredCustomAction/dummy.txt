@@ -1,4 +1,7 @@
 WiX Toolset Pills - Deferred Custom Action
 ==============================================================================
 
-This is a dummy file.
+This is a dummy file, part of the Deferred Custom Action tutorial.
+
+For more details please chech the GitHub repository:
+https://github.com/WiX-Toolset-Pills-15mg/Deferred-Custom-Action

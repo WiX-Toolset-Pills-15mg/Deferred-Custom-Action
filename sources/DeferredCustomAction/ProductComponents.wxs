@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
 
-        <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+        <ComponentGroup Id="FileComponents" Directory="INSTALLFOLDER">
             <Component Id="DummyFileComponent">
                 <!-- At least one file is needed to be deployed by the installer. -->
                 <File Id="DummyFile"  Source="$(var.ProjectDir)dummy.txt"/>

@@ -1,1 +1,1 @@
-msiexec /x ImmediateCustomAction.msi /l*vx uninstall.log
+msiexec /x DeferredCustomAction.msi /l*vx uninstall.log
