@@ -25,6 +25,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Id="CustomActionsBinary"
             SourceFile="$(var.DeferredCustomAction.CustomActions.TargetDir)$(var.DeferredCustomAction.CustomActions.TargetName).CA.dll" />
 
+        <!--
+        ====================================================================================================
+        Step 2: Create the custom actions
+        ====================================================================================================
+        
+        The deferred custom actions are not executed in the place in which they are scheduled in the execution
+        sequence. Instead, they are added into a list of deferred custom actions and executed at the end of the
+        installation sequence.
+        
+        Because of this, the deferred custom actions does not have access to the properties from the session.
+        The properties does not exist anymore by the point the custom action gets executed.
+        
+        We must explicitly preserve the values of the properties that the custom action needs. This is done by
+        a second custom action that has:
+            - a "Property" attribute pointing to the main custom action
+            - and a "Value" attribute containing a key-value list with the needed parameter values.
+        
+        Go To: Product.wxs
+        -->
+
+        <!-- Notice the "Property" and the "Value" attributes. -->
+
+        <CustomAction
+            Id="LogSomething_SetParameters"
+            Property="LogSomething"
+            Value="Message1=[MESSAGE1];Message2=[MESSAGE2]"/>
+
+        <!-- Notice the "Execute" attributes set to "deferred". -->
+
         <CustomAction
             Id="LogSomething"
             BinaryKey="CustomActionsBinary"

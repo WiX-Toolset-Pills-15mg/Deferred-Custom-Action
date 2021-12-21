@@ -1,1 +1,1 @@
-msiexec /i DeferredCustomAction.msi /l*vx install.log
+msiexec /i DeferredCustomAction.msi /l*vx install.log MESSAGE1="This is the custom message 1." MESSAGE2="This is the custom message 2."

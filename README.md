@@ -1,12 +1,10 @@
 # Deferred Custom Action
 
-## Question
-
-- How to create a deferred custom action?
-
 ## Description
 
 This pill demonstrates how to create a deferred custom action.
+
+The deferred custom actions are not executed in the place in which they are scheduled in the execution sequence. Instead, they are added into a list of deferred custom actions and executed at the end of the installation sequence.
 
 
 ## Donations

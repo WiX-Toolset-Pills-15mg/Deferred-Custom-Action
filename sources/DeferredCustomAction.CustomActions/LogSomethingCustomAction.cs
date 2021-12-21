@@ -20,20 +20,40 @@ namespace DustInTheWind.DeferredCustomAction.CustomActions
 {
     public class LogSomethingCustomAction
     {
+        // ====================================================================================================
+        // Step 4: Implement the custom action
+        // ====================================================================================================
+        // 
+        // Create a public static method having the CustomAction attribute on it.
+        //
+        // Being used as a deferred custom action, it cannot access the session properties, but it can access
+        // the properties explicitly set from WiX by the associated custom action.
+        //
+        // END
+
         [CustomAction("LogSomething")]
         public static ActionResult Execute(Session session)
         {
+            session.Log("==================== Begin LogSomething custom action ====================");
+
             try
             {
-                session.Log("Begin LogSomething custom action");
-
                 session.Log("This is a demo, to show how to create and execute a deferred custom action.");
+
+                // The values set by the associated custom action can be retrieved here, in C#,
+                // from the "CustomActionData" collection.
+
+                string message1 = session.CustomActionData["Message1"];
+                session.Log("Message 1: " + message1);
+
+                string message2 = session.CustomActionData["Message2"];
+                session.Log("Message 2: " + message2);
 
                 return ActionResult.Success;
             }
             finally
             {
-                session.Log("End LogSomething custom action");
+                session.Log("==================== End LogSomething custom action ====================");
             }
         }
     }

@@ -18,6 +18,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
+<!--
+====================================================================================================
+Overview (ToC)
+====================================================================================================
+
+- Step 1: Create properties (Product.wxs)
+- Step 2: Create the custom actions (CustomActions.wxs)
+- Step 3: Sequence the custom actions (Product.wxs)
+- Step 4: Implement the custom action (LogSomethingCustomAction.cs)
+-->
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product
         Id="*"
@@ -35,6 +46,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
         <MediaTemplate />
 
+        <!--
+        ====================================================================================================
+        Step 1: Create properties
+        ====================================================================================================
+        
+        Create a couple of properties that will be sent, later as parameters to the custom action.
+        
+        Note: The properties are upper case to be treated by WiX Toolset as "public".
+        This way they can be provided from command line.
+        
+        Go To: CustomActions.wxs
+        -->
+        <Property Id="MESSAGE1" Value="This is the first message." />
+        <Property Id="MESSAGE2" Value="This is the second message." />
+
         <Feature
             Id="ProductFeature"
             Title="DeferredCustomAction"
@@ -44,8 +70,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </Feature>
 
         <InstallExecuteSequence>
-            <!-- Here we use the custom action created earlier. -->
-            <Custom Action="LogSomething" After="InstallFiles"/>
+
+            <!--
+            ====================================================================================================
+            Step 3: Sequence the custom actions
+            ====================================================================================================
+            
+            The associated custom action setting the parameters must be scheduled before its main custom action.
+            
+            Go To: LogSomethingCustomAction.cs
+            -->
+
+            <Custom Action="LogSomething_SetParameters" Before="LogSomething" />
+            <Custom Action="LogSomething" After="InstallFiles" />
+
         </InstallExecuteSequence>
 
     </Product>
