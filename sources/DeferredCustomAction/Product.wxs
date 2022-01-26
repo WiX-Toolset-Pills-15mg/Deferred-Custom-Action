@@ -18,18 +18,23 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<!--
-====================================================================================================
-Overview (ToC)
-====================================================================================================
-
-- Step 1: Create properties (Product.wxs)
-- Step 2: Create the custom actions (CustomActions.wxs)
-- Step 3: Sequence the custom actions (Product.wxs)
-- Step 4: Implement the custom action (LogSomethingCustomAction.cs)
--->
-
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+    <!--
+    ====================================================================================================
+    START: Overview
+    ====================================================================================================
+
+    The deferred custom actions are not executed in the place in which they are scheduled in the
+    execution sequence. Instead, when they are encountered in the sequence, they are added into a list
+    of deferred custom actions and executed at the end of the installation sequence by the
+    InstallFinalize custom action.
+
+    This project demonstrates how to create and schedule a deferred custom action.
+    
+    NEXT: Product.wxs
+    -->
+
     <Product
         Id="*"
         Name="Deferred Custom Action - WiX Toolset Pill"
@@ -48,16 +53,18 @@ Overview (ToC)
 
         <!--
         ====================================================================================================
-        Step 1: Create properties
+        Step 1: Create the MESSAGE properties
         ====================================================================================================
         
-        Create a couple of properties that will be sent, later as parameters to the custom action.
+        Create a couple of properties that will be sent, later as parameters to the custom action's
+        implementation.
         
-        Note: The properties are upper case to be treated by WiX Toolset as "public".
-        This way they can be provided from command line.
+        Note: The properties are upper case. By convention, WiX Toolset treats all uppercase properties as
+              "public" and they can be provided from command line.
         
-        Go To: CustomActions.wxs
+        NEXT: CustomActions.wxs
         -->
+
         <Property Id="MESSAGE1" Value="This is the first message." />
         <Property Id="MESSAGE2" Value="This is the second message." />
 
@@ -73,12 +80,15 @@ Overview (ToC)
 
             <!--
             ====================================================================================================
-            Step 3: Sequence the custom actions
+            Step 9: Sequence the custom actions
             ====================================================================================================
             
+            It is time to add the custom action int the execution sequence.
             The associated custom action setting the parameters must be scheduled before its main custom action.
             
-            Go To: LogSomethingCustomAction.cs
+            That's it. Now, let's build and run the installer.
+            
+            NEXT: install.bat
             -->
 
             <Custom Action="LogSomething_SetParameters" Before="LogSomething" />

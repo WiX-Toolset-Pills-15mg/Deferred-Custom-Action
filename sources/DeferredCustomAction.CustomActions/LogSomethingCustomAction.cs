@@ -18,30 +18,57 @@ using Microsoft.Deployment.WindowsInstaller;
 
 namespace DustInTheWind.DeferredCustomAction.CustomActions
 {
+    // ====================================================================================================
+    // Step 4: Create the custom actions project
+    // ====================================================================================================
+    // 
+    // A custom action project is a class library with additional instructions that creates the *.CA.dll
+    // file as a wrapper over the normal .NET dll assembly.
+    // This is necessary because Windows Installer is not able to consume .NET assemblies directly. This
+    // *.CA.dll acts as an adapter.
+    // 
+    // Note: Because of this, make sure to always create a project of type "C# Custom Action Project for
+    //       WiX v3" and not a normal class library project.
+    // 
+    // NEXT: LogSomethingCustomAction.cs (DOWN)
+
     public class LogSomethingCustomAction
     {
         // ====================================================================================================
-        // Step 4: Implement the custom action
+        // Step 5: Create the custom action function
         // ====================================================================================================
         // 
-        // Create a public static method having the CustomAction attribute on it.
-        //
-        // Being used as a deferred custom action, it cannot access the session properties, but it can access
-        // the properties explicitly set from WiX by the associated custom action.
-        //
-        // END
+        // Create a public static method having the [CustomAction] attribute on it. This is the function
+        // referenced in the custom action tag from WiX.
+        // 
+        // The name of the custom action can be provided as parameter. In this case, it is "LogSomething".
+        // If it is not provided explicitly, it will be the name of the function itself: "Execute".
+        // 
+        // Let's go back in the installer project and add the reference to this library.
+        // 
+        // NEXT: CustomActions.wxs
 
         [CustomAction("LogSomething")]
         public static ActionResult Execute(Session session)
         {
-            session.Log("==================== Begin LogSomething custom action ====================");
-
+            session.Log("--> Begin LogSomething custom action");
             try
             {
-                session.Log("This is a demo, to show how to create and execute a deferred custom action.");
-
-                // The values set by the associated custom action can be retrieved here, in C#,
-                // from the "CustomActionData" collection.
+                // ====================================================================================================
+                // Step 7: Access the parameters
+                // ====================================================================================================
+                // 
+                // Being used as a deferred custom action, and executed at the end of the installation, this function
+                // cannot access the session properties anymore as we did in an immediate custom action. We'll need a
+                // different mechanism.
+                // 
+                // WiX Toolset provides a way using a second custom action that we need to create in WiX in order to
+                // access the values here in C# using the "CustomActionData" collection as it can be seen in this
+                // example.
+                // 
+                // Now, let's go in the installer project and create this additional custom action.
+                // 
+                // NEXT: CustomActions.wxs
 
                 string message1 = session.CustomActionData["Message1"];
                 session.Log("Message 1: " + message1);
@@ -53,7 +80,7 @@ namespace DustInTheWind.DeferredCustomAction.CustomActions
             }
             finally
             {
-                session.Log("==================== End LogSomething custom action ====================");
+                session.Log("--> End LogSomething custom action");
             }
         }
     }

@@ -18,8 +18,52 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
+<!--
+====================================================================================================
+Step 6: Reference the custom action library
+====================================================================================================
+
+A reference to the library file (*.CA.dll file) that contains the custom actions must be added:
+    - right click on the project -> Add -> Reference... -> Projects -> <the project name> -> Add -> OK
+
+A custom actions project for WiX created in C# will generate two files:
+    - "<name>.dll" - a normal .NET class library assembly.
+    - "<name>.CA.dll" - a wrapper over the previously created .NET assembly that can be consumed by
+      Windows Installer.
+This trick is needed because, natively, Windows Installer cannot consume .NET assemblies.
+
+Good, now, let's continue the implementation of the C# function. There is one more particularity we
+must take care of.
+
+NEXT: LogSomethingCustomAction.cs
+-->
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
+
+        <!--
+        ====================================================================================================
+        Step 3: Add the <Binary> tag
+        ====================================================================================================
+        
+        The <Binary> tag provides an alias for the dll that contains the implementation of the custom
+        action. (We'll create that project later.)
+        
+        After we'll add the custom action's project as a reference, WiX Toolset will automatically create a
+        number of useful variables like:
+        
+            - var.DeferredCustomAction.CustomActions.TargetDir
+                - contains the path to the custom action's dll. (That bin\Debug or bin\Release where the
+                  project is built.)
+                
+            - var.DeferredCustomAction.CustomActions.TargetName
+                - contains the name of the custom action's assembly. This is the name of the file without
+                  extension.
+        
+        Now, let's create the C# library project.
+        
+        NEXT: LogSomethingCustomAction.cs
+        -->
 
         <Binary
             Id="CustomActionsBinary"
@@ -27,39 +71,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!--
         ====================================================================================================
-        Step 2: Create the custom actions
+        Step 8: Create the parameters custom action
         ====================================================================================================
         
-        The deferred custom actions are not executed in the place in which they are scheduled in the execution
-        sequence. Instead, they are added into a list of deferred custom actions and executed at the end of the
-        installation sequence.
+        Because the deferred custom actions are executed at the end of the installation, they no longer have
+        access to the properties from the session. The properties does not exist anymore by the point the
+        custom action gets executed.
         
-        Because of this, the deferred custom actions does not have access to the properties from the session.
-        The properties does not exist anymore by the point the custom action gets executed.
+        We must explicitly preserve the values of the property values that the implementation needs. This is
+        done by a second custom action that concatenates all the arguments and creates a new property with
+        the same name as the deferred custom action:
+            - The "Property" attribute must have the same name as the deferred custom action.
+            - The "Value" attribute contains a key-value list with the arguments separated by semicolon.
         
-        We must explicitly preserve the values of the properties that the custom action needs. This is done by
-        a second custom action that has:
-            - a "Property" attribute pointing to the main custom action
-            - and a "Value" attribute containing a key-value list with the needed parameter values.
-        
-        Go To: Product.wxs
+        NEXT: Product.wxs
         -->
-
-        <!-- Notice the "Property" and the "Value" attributes. -->
 
         <CustomAction
             Id="LogSomething_SetParameters"
             Property="LogSomething"
             Value="Message1=[MESSAGE1];Message2=[MESSAGE2]"/>
 
-        <!-- Notice the "Execute" attributes set to "deferred". -->
+        <!--
+        ====================================================================================================
+        Step 2: Create the deferred custom action
+        ====================================================================================================
+        
+        This one is very similar with an immediate custom action, but it has its "Execute" attribute set to
+        "deferred".
+        
+        Similar to an immediate custom action, it also needs to provide the two attributes that identifies
+        the C# function containing the actual implementation:
+            - The "BinaryKey" - specifies the library file;
+            - The "DllEntry" - specifies the function containing the implementation.
+        
+        The "BinaryKey" attribute actually references a <Binary> tag that, in turn, will point to the dll
+        library. Let's create that <binary> tag. (See the beginning of this file.)
+        
+        NEXT: CustomActions.wxs (UP)
+        -->
 
         <CustomAction
             Id="LogSomething"
             BinaryKey="CustomActionsBinary"
             DllEntry="LogSomething"
-            Return="check"
-            Impersonate="no"
             Execute="deferred" />
 
     </Fragment>

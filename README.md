@@ -6,6 +6,31 @@ This pill demonstrates how to create a deferred custom action.
 
 The deferred custom actions are not executed in the place in which they are scheduled in the execution sequence. Instead, they are added into a list of deferred custom actions and executed at the end of the installation sequence.
 
+## How to use
+
+### a) Tutorial (article)
+
+-  TBD
+
+### b) Code example
+
+- [sources](sources)
+- I provided the complete Visual Studio solution that solves the described problem. Check it out whenever you fill the need to test it by yourself, in your environment or if you have further ideas that you want to verify.
+
+### c) Code notes
+
+- A shorter version of the tutorial can be found directly in the source code. Open Visual Studio solution and search (Ctrl+Shift+F) for the `START` comment, then follow the `Step` comments.
+
+- **Note:** The `NEXT` tags at the end of each comment indicates the file where to search for the next `Step`.
+
+### d) Log file examples
+
+- [doc/logs](doc/logs)
+- Sometimes a quick look into the log files may be useful, but running the installer each time is cumbersome. I generated the log files for what I thought are the meaningful scenarios and I placed them into this directory. Have a look when needed.
+
+## Suggestions
+
+Any suggestion or opinion is appreciated. Please, feel free to add a [GitHub Issue](https://github.com/WiX-Toolset-Pills-15mg/Deferred-Custom-Action/issues/new?assignees=&labels=&template=feature_request.md&title=).
 
 ## Donations
 
