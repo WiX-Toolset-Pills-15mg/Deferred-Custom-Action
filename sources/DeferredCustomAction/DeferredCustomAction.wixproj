@@ -26,6 +26,7 @@
     <Compile Include="ProductComponents.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="install-with-messages.bat" />
     <Content Include="dummy.txt" />
     <Content Include="install.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

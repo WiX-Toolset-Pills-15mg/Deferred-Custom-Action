@@ -18,22 +18,21 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
+<!--
+====================================================================================================
+START: Overview
+====================================================================================================
+
+The implementation of a deferred custom actions is not executed when the deferred custom action is
+encountered in the execution sequence. Instead, it is placed into a list of deferred custom actions
+and executed later, at the end of the installation sequence by the "InstallFinalize" custom action.
+
+This project demonstrates how to create and schedule a deferred custom action.
+
+NEXT: Product.wxs (DOWN)
+-->
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-
-    <!--
-    ====================================================================================================
-    START: Overview
-    ====================================================================================================
-
-    The deferred custom actions are not executed in the place in which they are scheduled in the
-    execution sequence. Instead, when they are encountered in the sequence, they are added into a list
-    of deferred custom actions and executed at the end of the installation sequence by the
-    InstallFinalize custom action.
-
-    This project demonstrates how to create and schedule a deferred custom action.
-    
-    NEXT: Product.wxs
-    -->
 
     <Product
         Id="*"
@@ -56,17 +55,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         Step 1: Create the MESSAGE properties
         ====================================================================================================
         
-        Create a couple of properties that will be sent, later as parameters to the custom action's
-        implementation.
+        Create a couple of properties that will be sent, later, to the custom action's implementation in
+        order to write them into the log file.
         
-        Note: The properties are upper case. By convention, WiX Toolset treats all uppercase properties as
-              "public" and they can be provided from command line.
-        
-        NEXT: CustomActions.wxs
+        NEXT: LogMessagesCustomAction.wxs
         -->
 
-        <Property Id="MESSAGE1" Value="This is the first message." />
-        <Property Id="MESSAGE2" Value="This is the second message." />
+        <Property Id="MESSAGE1" Value="This is the default message 1." />
+        <Property Id="MESSAGE2" Value="This is the default message 2." />
 
         <Feature
             Id="ProductFeature"
@@ -83,16 +79,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Step 9: Sequence the custom actions
             ====================================================================================================
             
-            It is time to add the custom action int the execution sequence.
-            The associated custom action setting the parameters must be scheduled before its main custom action.
+            It is time to add the custom action into the execution sequence.
+            
+            Note that the associated custom action that sets the data must be scheduled before its associated
+            deferred custom action.
             
             That's it. Now, let's build and run the installer.
             
-            NEXT: install.bat
+            NEXT: install-with-messages.bat
             -->
 
-            <Custom Action="LogSomething_SetParameters" Before="LogSomething" />
-            <Custom Action="LogSomething" After="InstallFiles" />
+            <Custom Action="LogMessages_SetData" Before="LogMessages" />
+            <Custom Action="LogMessages" After="InstallInitialize" />
 
         </InstallExecuteSequence>
 

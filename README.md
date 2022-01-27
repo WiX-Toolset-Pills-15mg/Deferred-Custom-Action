@@ -4,13 +4,14 @@
 
 This pill demonstrates how to create a deferred custom action.
 
-The deferred custom actions are not executed in the place in which they are scheduled in the execution sequence. Instead, they are added into a list of deferred custom actions and executed at the end of the installation sequence.
+The implementation of a deferred custom actions is not executed when the deferred custom action is encountered in the execution sequence. Instead, it is placed into a list of deferred custom actions and executed later, at the end of the installation sequence.
 
 ## How to use
 
 ### a) Tutorial (article)
 
--  TBD
+-  [doc/article/README.md](doc/article/README.md)
+-  This document contains a step-by-step tutorial. You can find there explanations on solving the described problem.
 
 ### b) Code example
 
