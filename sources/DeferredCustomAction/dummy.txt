@@ -1,7 +1,12 @@
-WiX Toolset Pills - Deferred Custom Action
-==============================================================================
+WiX Toolset Pills 15mg - Deferred Custom Action
+====================================================================================================
 
 This is a dummy file, part of the Deferred Custom Action tutorial.
+
+This pill demonstrates how to create and use a deferred custom action.
+The implementation of a deferred custom actions is not executed when the deferred custom action is
+encountered in the execution sequence. Instead, it is placed into a list of deferred custom actions
+and executed later, at the end of the installation sequence.
 
 For more details please chech the GitHub repository:
 https://github.com/WiX-Toolset-Pills-15mg/Deferred-Custom-Action

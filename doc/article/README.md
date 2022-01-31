@@ -14,6 +14,8 @@ Let's begin.
 
 Create a simple installer project called "DeferredCustomAction" that deploys a single dummy file.
 
+![The Initial Project](the-initial-project.png)
+
 See the "My First Installer" pill for an example:
 
 - [My First Installer](https://github.com/WiX-Toolset-Pills-15mg/My-First-Installer)
