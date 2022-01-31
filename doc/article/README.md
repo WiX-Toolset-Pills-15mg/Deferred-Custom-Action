@@ -186,7 +186,7 @@ As we specified before, a deferred custom action cannot access the properties, s
 - `Value` attribute
   - Contains a key-value list with the arguments separated by semicolon.
 
-### Step 9: Sequence the custom actions
+### Step 8: Sequence the custom actions
 
 It is time to add the custom actions into the execution sequence. Note that the associated custom action, the one that sets the data must be scheduled before its deferred custom action.
 
@@ -199,7 +199,7 @@ It is time to add the custom actions into the execution sequence. Note that the 
 
 That's it. Now, let's build and run the installer.
 
-### Step 10: Run the installer
+### Step 9: Run the installer
 
 Install the MSI and look into the "install-with-messages.log" file.
 
