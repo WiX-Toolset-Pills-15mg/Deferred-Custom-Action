@@ -76,7 +76,7 @@ NEXT: Product.wxs (DOWN)
 
             <!--
             ====================================================================================================
-            Step 9: Sequence the custom actions
+            Step 8: Sequence the custom actions
             ====================================================================================================
             
             It is time to add the custom action into the execution sequence.
